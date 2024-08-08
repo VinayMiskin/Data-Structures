@@ -7,69 +7,147 @@ public class MyArrayList <T>{
 	private int size;//Number of objects stored
 	
 	public MyArrayList() {
-		
+		System.out.println("using no-arg contr");
 	}
 	public MyArrayList(int arrayLength) {
+		System.out.println("Create an ArrayList of given size "+arrayLength);
 		array =(T[])new Object[arrayLength];
 	}
 			
 	public <E extends T> boolean add(E element) {
 		
 		if(array==null) {
-			System.out.println("Creating and adding "+element);
+			/*if the array var is null
+			 * then create new array with length 10 
+			 * then add element
+			 */
+			
 			array=(T[])new Object[10];
 			array[size]=element;
 			size++;
 			return true;
 		}
-		else {
-			System.out.println("adding "+element);
+		//Compare actual length and size(number of elements added)
+		else if(array.length > size) {
+			
 			array[size]=element;
+			size++;
+			return true;
+		}
+		else {
+			/*if array does,t have space or reached to last index
+			 * then create new array
+			 * transfer all the elements to new array
+			 * then reassign the ref of new array to instance variable 'array'
+			 */
+			int length=(int)(array.length*0.5)+array.length;
+			
+			
+			T[] array2=(T[])new Object[length];
+			for (int i = 0; i < size; i++) {
+				array2[i]=array[i];
+			}
+			array=array2;
+			array[size] = element;
 			size++;
 			return true;
 		}
 	}
 	
 	public <E extends T> void add(int index, E element) {
+		/*
+		 * 1st check whether the given index is greater than the size. i.e, index > size
+		 * if true,then throw AIOOBEx
+		 * if false,then proceed to add the element
+		 * now check whether index is at the end of the Collection then add directly if there is empty box and size++
+		 * else if the array doesn't have space then create new array then add element 1st if index=0 
+		 * 		then copy all the element to new array then at the end assign new array ref to old array variable and size++
+		 * else if the index==size then copy all the element to new array 
+		 * 		then at the end assign new array ref to old array variable
+		 * 		then at the element at the end and size++
+		 */
 		
-		if(index>size) 
+		if(index > size) 
 			throw new ArrayIndexOutOfBoundsException(index);
-		else if(size==index){
-			array[size]=element;
+		else if(size == index){
+			
+			array[size] = element;
 			size++;
 		}
-		else {
-			for (int i = size; i > index; i--) {
-				array[i+1]=array[i];
+		else if(index == 0) {
+			if(array.length > size) {
+				
+				for (int j = size; j >0; j--) {
+					array[j] = array[j-1];
+				}
+				array[0]=element;
+				size++;
+				return;
 			}
-			array[index]=element;
+			else {
+				
+				int length=(int)(array.length*0.5);
+				T[] array2=(T[])new Object[length];
+				
+				for (int j = size; j > 0; j--) {
+					array[j+1] = array[j];
+				}
+				array[0]=element;
+				size++;
+				return;
+			}
+		}
+		else if(array.length > size) {
+			
+			for (int i = size; i >= index; i--) {
+				array[i+1] = array[i];
+			}
+			array[index] = element;
+			
+			size++;
+			return;
+		}
+		else {
+			int length=(int)(array.length*0.5)+array.length;
+			T[] array2=(T[])new Object[length];
+			
+			
+			for (int i = 0; i < index; i++) {
+				array2[i] = array[i];
+			}
+			array2[index] = element;
+			for (int i = index; i < size; i++) {
+				array2[i+1] = array[i];
+			}
+			
+			array=array2;
 			size++;
 		}
 	}
 	
 	
-	public boolean contains(Object o) {
+	public boolean contains(T element) {
 		
 		for (int i = 0; i < size; i++) {
-			if(array[i].equals(o))
+			if(element.equals(array[i]))
 				return true;
 		}
 		
 		return false;
 	}
 	
-	public int indexOf(Object o) {
+	public int indexOf(T element) {
 		for (int i = 0; i < size; i++) {
-			if(array[i].equals(o))
+			if(element.equals(array[i]))
 				return i;
 		}
 		
 		return -1;
 	}
-	public <E extends T> E remove(int index){
-		E e;
+	public T remove(int index){
+		T e;
 		if(index<=size) {
-			e=(E)array[index];
+			e=array[index];
 			for (int i = index; i < size-1; i++) {
 				array[i]=array[i+1];
 			}
@@ -101,13 +179,13 @@ public class MyArrayList <T>{
 	}
 	@Override
 	public String toString() {
-		String s="{";
+		String s="[";
 		for (int i = 0; i < size; i++) {
 			s+=array[i];
 			if(i!=size-1)
 				s+=", ";
 		}
-		s+="}";
+		s+="]";
 		return s;
 	}
 }
