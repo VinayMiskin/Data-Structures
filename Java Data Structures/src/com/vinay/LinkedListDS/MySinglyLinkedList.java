@@ -33,7 +33,7 @@ public class  MySinglyLinkedList <T> {
 	public void add(int index,T element) {
 		
 		if(index > size)
-			throw new IllegalArgumentException();
+			throw new IndexOutOfBoundsException();
 		Node<T> node = new Node<>(element);
 		if(index==0) {
 			node.setNextNode(head);
@@ -48,7 +48,7 @@ public class  MySinglyLinkedList <T> {
 			return;
 		}
 		else {
-			System.out.println("in the else part");
+			
 			
 			Node temp = head;
 			while( index != 1) {
@@ -96,7 +96,7 @@ public class  MySinglyLinkedList <T> {
 	
 	public T get(int index) {
 		if(index > size)
-			throw new IllegalArgumentException();
+			throw new IndexOutOfBoundsException();
 		if(index == 0)
 			return (T)head.getElement();
 		else if(index == size)
@@ -117,16 +117,18 @@ public class  MySinglyLinkedList <T> {
 	}
 	
 	public boolean remove(T element) {
-		if(head.getElement().equals(element)) {
+		if(element.equals((T)head.getElement())) {
 			head = head.getNextNode(); 
+			size--;
 			return  true;
 		}
 		Node temp = head.getNextNode();
 		Node tempPrev = head;
 		
 		while(temp != null) {
-			if(temp.getElement().equals(element)) {
+			if(element.equals((T)temp.getElement())) {
 				tempPrev.setNextNode(temp.getNextNode());
+				size--;
 				return true;
 			}
 			tempPrev = temp;
@@ -135,4 +137,50 @@ public class  MySinglyLinkedList <T> {
 		return false;
 			
 	}
+	
+	public T remove(int index) {
+		if(index > size)
+			throw new IndexOutOfBoundsException();
+		T element;
+		if( index == 0) {
+			element = (T)head.getElement();
+			head = head.getNextNode();
+			size--;
+			return element;
+		}
+		Node temp = head.getNextNode();
+		Node tempPrev = head;
+		
+		while(index != 1) {
+			tempPrev = temp;
+			temp = temp.getNextNode();
+			index--;
+		}
+		element = (T)temp.getElement();
+		tempPrev.setNextNode(temp.getNextNode());
+		size--;
+		return element;
+		
+	}
+	
+	public int indexOf(T element) {
+		
+		if(element.equals((T)head.getElement())) {
+			head = head.getNextNode(); 
+			size--;
+			return  0;
+		}
+		Node temp = head;
+		
+		int count = 0;
+		while(temp != null) {
+			if(element.equals((T)temp.getElement())) {
+				return count;
+			}
+			count++;
+			temp = temp.getNextNode();
+		}
+		return -1;
+	}
+	
 }
