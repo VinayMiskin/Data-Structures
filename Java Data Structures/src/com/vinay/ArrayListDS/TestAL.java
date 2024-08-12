@@ -10,6 +10,7 @@ public class TestAL {
 		list1.add("a");
 		list1.add("b");
 		list1.add("c");
+		System.out.println("2nd element is "+list1.get(2));
 		System.out.println(list1);
 		list1.add("d");
 		System.out.println(list1);

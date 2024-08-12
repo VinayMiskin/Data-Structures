@@ -144,6 +144,12 @@ public class MyArrayList <T>{
 		
 		return -1;
 	}
+	
+	public T get(int index) {
+		
+		return array[index];
+	}
+	
 	public T remove(int index){
 		T e;
 		if(index<=size) {
