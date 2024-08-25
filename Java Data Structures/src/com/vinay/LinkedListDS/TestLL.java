@@ -97,7 +97,7 @@ public class TestLL {
 		System.out.println(l3);
 		System.out.println("remove element e "+l3.remove("e"));
 		System.out.println(l3);
-		System.out.println("size is ?"+l3.size()+" .remove element 0 "+l3.remove(7));
+		System.out.println("size is ?"+l3.size()+" .remove element 7 "+l3.remove(7));
 		
 		System.out.println("The index of i is "+l3.indexOf("i"));
 		System.out.println(l3);
